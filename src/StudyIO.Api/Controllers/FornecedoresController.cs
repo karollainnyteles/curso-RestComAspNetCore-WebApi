@@ -57,7 +57,7 @@ namespace StudyIO.Api.Controllers
                 return BadRequest();
             }
 
-            return Ok(fornecedor);
+            return Ok(fornecedorViewModel);
         }
 
         [HttpPut("{id:guid}")]
