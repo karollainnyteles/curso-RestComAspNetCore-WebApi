@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using StudyIO.Business.Interfaces;
+using StudyIO.Business.Notifications;
+using StudyIO.Business.Services;
 using StudyIO.Data.Context;
 using StudyIO.Data.Repositories;
 
@@ -11,6 +13,13 @@ namespace StudyIO.Api.Configuration
         {
             services.AddScoped<MeuDbContext>();
             services.AddScoped<IFornecedorRepository, FornecedorRepository>();
+            services.AddScoped<IProdutoRepository, ProdutoRepository>();
+            services.AddScoped<IEnderecoRepository, EnderecoRepository>();
+            services.AddScoped<IFornecedorService, FornecedorService>();
+
+            services.AddScoped<INotificador, Notificador>();
+            services.AddScoped<IFornecedorService, FornecedorService>();
+            services.AddScoped<IProdutoService, ProdutoService>();
 
             return services;
         }
