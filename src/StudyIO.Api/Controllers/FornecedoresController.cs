@@ -13,14 +13,19 @@ namespace StudyIO.Api.Controllers
     public class FornecedoresController : MainController
     {
         private readonly IFornecedorRepository _fornecedorRepository;
+        private readonly IEnderecoRepository _enderecoRepository;
         private readonly IFornecedorService _fornecedorService;
         private readonly IMapper _mapper;
 
-        public FornecedoresController(IFornecedorRepository fornecedorRepository, IMapper mapper, IFornecedorService fornecedorService)
+        public FornecedoresController(IFornecedorRepository fornecedorRepository,
+                                      IMapper mapper,
+                                      IFornecedorService fornecedorService,
+                                      INotificador notificador, IEnderecoRepository enderecoRepository) : base(notificador)
         {
             _fornecedorRepository = fornecedorRepository;
             _mapper = mapper;
             _fornecedorService = fornecedorService;
+            _enderecoRepository = enderecoRepository;
         }
 
         [HttpGet]
@@ -46,18 +51,12 @@ namespace StudyIO.Api.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return CustomResponse(ModelState);
             }
-
             var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
-            var result = await _fornecedorService.Adicionar(fornecedor);
+            await _fornecedorService.Adicionar(fornecedor);
 
-            if (!result)
-            {
-                return BadRequest();
-            }
-
-            return Ok(fornecedorViewModel);
+            return CustomResponse(fornecedorViewModel);
         }
 
         [HttpPut("{id:guid}")]
@@ -65,39 +64,56 @@ namespace StudyIO.Api.Controllers
         {
             if (id != fornecedorViewModel.Id)
             {
-                return BadRequest();
+                NotificarErro("Os ids informados são diferentes");
+                return CustomResponse(fornecedorViewModel);
             }
 
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return CustomResponse(ModelState);
             }
 
             var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
-            var result = await _fornecedorService.Atualizar(fornecedor);
+            await _fornecedorService.Atualizar(fornecedor);
 
-            if (!result)
-            {
-                return BadRequest();
-            }
-
-            return Ok(fornecedor);
+            return CustomResponse(fornecedorViewModel);
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<FornecedorViewModel>> Excluir(Guid id)
         {
-            var fornecedor = await ObterFornecedorEndereco(id);
+            var fornecedorViewModel = await ObterFornecedorEndereco(id);
 
-            if (fornecedor == null)
+            if (fornecedorViewModel == null)
             {
                 return NotFound();
             }
 
-            var result = await _fornecedorService.Remover(id);
-            if (!result) return BadRequest();
+            await _fornecedorService.Remover(id);
 
-            return Ok(fornecedor);
+            return CustomResponse();
+        }
+
+        [HttpGet("obter-endereco/{id:guid}")]
+        public async Task<EnderecoViewModel> ObterEnderecoPorId(Guid id)
+        {
+            return _mapper.Map<EnderecoViewModel>(await _enderecoRepository.ObterPorId(id));
+        }
+
+        [HttpPut("atualizar-endereco/{id:guid}")]
+        public async Task<IActionResult> AtualizarEndereco(Guid id, EnderecoViewModel enderecoViewModel)
+        {
+            if (id != enderecoViewModel.Id)
+            {
+                NotificarErro("Os ids informados são diferentes");
+                return CustomResponse(enderecoViewModel);
+            }
+
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+            await _fornecedorService.AtualizarEndereco(_mapper.Map<Endereco>(enderecoViewModel));
+
+            return CustomResponse(enderecoViewModel);
         }
 
         public async Task<FornecedorViewModel> ObterFornecedorProdutosEndereco(Guid id)
