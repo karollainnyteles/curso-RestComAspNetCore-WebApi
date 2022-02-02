@@ -36,6 +36,16 @@ namespace StudyIO.Api
             });
 
             services.ResolveDependecies();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Development",
+                    builder =>
+                        builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +55,8 @@ namespace StudyIO.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("Development");
 
             app.UseHttpsRedirection();
 

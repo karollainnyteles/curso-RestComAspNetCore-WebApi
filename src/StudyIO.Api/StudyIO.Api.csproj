@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\%2a%2a" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\StudyIO.Business\StudyIO.Business.csproj" />
     <ProjectReference Include="..\StudyIO.Data\StudyIO.Data.csproj" />
 	<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
