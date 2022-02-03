@@ -26,6 +26,8 @@ namespace StudyIO.Api
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddIdentityConfig(Configuration);
             services.AddAutoMapper(typeof(Startup));
 
             services.WebApiConfig();
@@ -49,6 +51,9 @@ namespace StudyIO.Api
             {
                 endpoints.MapControllers();
             });
+
+            //sempre tem que vim antes da config do mvc
+            app.UseAuthentication();
 
             app.UseMvcConfiguration();
         }

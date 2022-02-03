@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudyIO.Api.ViewModels;
 using StudyIO.Business.Interfaces;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace StudyIO.Api.Controllers
 {
+    [Authorize]
     [Route("api/fornecedores")]
     public class FornecedoresController : MainController
     {
@@ -28,6 +30,7 @@ namespace StudyIO.Api.Controllers
             _enderecoRepository = enderecoRepository;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
         {
