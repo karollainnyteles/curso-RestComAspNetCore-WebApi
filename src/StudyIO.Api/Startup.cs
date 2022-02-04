@@ -45,15 +45,13 @@ namespace StudyIO.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
-            //sempre tem que vim antes da config do mvc
-            app.UseAuthentication();
 
             app.UseMvcConfiguration();
         }
