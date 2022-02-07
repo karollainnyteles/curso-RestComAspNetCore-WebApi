@@ -23,6 +23,15 @@ namespace StudyIO.Api.Configuration
                         .AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader());
+
+                options.AddPolicy("Production",
+                    builder =>
+                        builder
+                            .WithMethods("GET")
+                            .WithOrigins("http://study.io")
+                            .SetIsOriginAllowedToAllowWildcardSubdomains()
+                            //.WithHeaders(HeaderNames.ContentType, "x-custom-header")
+                            .AllowAnyHeader());
             });
 
             return services;
@@ -31,8 +40,6 @@ namespace StudyIO.Api.Configuration
         public static IApplicationBuilder UseMvcConfiguration(this IApplicationBuilder app)
         {
             app.UseHttpsRedirection();
-
-            app.UseCors("Development");
 
             return app;
         }
