@@ -11,13 +11,15 @@ namespace StudyIO.Business.Services
     {
         private readonly IFornecedorRepository _fornecedorRepository;
         private readonly IEnderecoRepository _enderecoRepository;
+        private readonly IUser _user;
 
         public FornecedorService(IFornecedorRepository fornecedorRepository,
-            IEnderecoRepository enderecoRepository, INotificador notificador)
+            IEnderecoRepository enderecoRepository, INotificador notificador, IUser user)
             : base(notificador)
         {
             _fornecedorRepository = fornecedorRepository;
             _enderecoRepository = enderecoRepository;
+            _user = user;
         }
 
         public async Task<bool> Adicionar(Fornecedor fornecedor)
@@ -30,6 +32,8 @@ namespace StudyIO.Business.Services
                 Notificar("Já existe um fornecedor com este documento infomado.");
                 return false;
             }
+
+            var user = _user.GetUserId();
 
             await _fornecedorRepository.Adicionar(fornecedor);
             return true;
