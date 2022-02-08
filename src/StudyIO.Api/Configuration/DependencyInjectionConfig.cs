@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using StudyIO.Api.Extensions;
 using StudyIO.Business.Interfaces;
 using StudyIO.Business.Notifications;
 using StudyIO.Business.Services;
 using StudyIO.Data.Context;
 using StudyIO.Data.Repositories;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace StudyIO.Api.Configuration
 {
@@ -25,6 +27,8 @@ namespace StudyIO.Api.Configuration
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IUser, AspnetUser>();
+
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
             return services;
         }
