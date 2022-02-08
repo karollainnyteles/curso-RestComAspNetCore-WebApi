@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using StudyIO.Api.Configuration;
 using StudyIO.Data.Context;
 
@@ -31,6 +32,11 @@ namespace StudyIO.Api
             services.AddAutoMapper(typeof(Startup));
 
             services.WebApiConfig();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            });
 
             services.ResolveDependecies();
         }
@@ -60,6 +66,12 @@ namespace StudyIO.Api
             });
 
             app.UseMvcConfiguration();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
         }
     }
 }
