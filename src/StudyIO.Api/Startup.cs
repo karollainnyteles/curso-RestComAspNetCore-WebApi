@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StudyIO.Api.Configuration;
+using StudyIO.Api.Extensions;
 using StudyIO.Data.Context;
 
 namespace StudyIO.Api
@@ -53,6 +54,8 @@ namespace StudyIO.Api
                 app.UseCors("Production");
                 app.UseHsts();//config do https
             }
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseRouting();
 

@@ -2,7 +2,6 @@
 using Elmah.Io.Extensions.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using System;
 
 namespace StudyIO.Api.Configuration
@@ -19,17 +18,17 @@ namespace StudyIO.Api.Configuration
 
             //configurando Elmah como um provider,
             //dessa forma o Elmah consegue capturar
-            services.AddLogging(builder =>
-            {
-                builder.AddElmahIo(o =>
-                {
-                    o.ApiKey = "f399f3ba6f894c8d81ad71fb3775a8e4";
-                    o.LogId = new Guid("9e44eec8-4166-4df2-8894-cf043113b1ff");
-                });
+            //services.AddLogging(builder =>
+            //{
+            //    builder.AddElmahIo(o =>
+            //    {
+            //        o.ApiKey = "f399f3ba6f894c8d81ad71fb3775a8e4";
+            //        o.LogId = new Guid("9e44eec8-4166-4df2-8894-cf043113b1ff");
+            //    });
 
-                //Add filtro pra ele mostrar logs de warning pra cima
-                builder.AddFilter<ElmahIoLoggerProvider>(null, LogLevel.Warning);
-            });
+            //    //Add filtro pra ele mostrar logs de warning pra cima
+            //    builder.AddFilter<ElmahIoLoggerProvider>(null, LogLevel.Warning);
+            //});
 
             return services;
         }
