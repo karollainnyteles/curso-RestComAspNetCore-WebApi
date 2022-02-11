@@ -18,6 +18,9 @@
 	<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.8" />
 	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.8" />
 	  <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.10" />
+	  <PackageReference Include="Elmah.Io.AspNetCore" Version="3.10.122" />
+	  <PackageReference Include="Elmah.Io.AspNetCore.HealthChecks" Version="3.10.122" />
+	  <PackageReference Include="Elmah.Io.Extensions.Logging" Version="3.7.66" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.22">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

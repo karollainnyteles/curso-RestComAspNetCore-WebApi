@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using StudyIO.Api.Configuration;
 using StudyIO.Data.Context;
 
@@ -35,6 +34,8 @@ namespace StudyIO.Api
             services.WebApiConfig();
 
             services.AddSwaggerConfig();
+
+            services.AddLoggingConfiguration();
 
             services.ResolveDependecies();
         }
@@ -66,6 +67,8 @@ namespace StudyIO.Api
             app.UseMvcConfiguration();
 
             app.UseSwaggerConfig(provider);
+
+            app.UseLoggingConfiguration();
         }
     }
 }
